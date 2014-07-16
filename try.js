@@ -1,5 +1,6 @@
-$( function() {
+var Key = generateRandomKey();
 
+$( function() {
 	$('#upload').on('click', function(){
 		var fileInput = document.getElementById('fileInput').files[0];
 		var reader = new FileReader();
@@ -14,9 +15,8 @@ $( function() {
 			var MIMEType = uploadData.substr(pos1+1,pos2-pos1-1);
 			var FileData = uploadData.substr(pos3+1);
 
-			console.log(FileName);
-			console.log(MIMEType);
-			console.log(FileData);
+			// encryption 
+			FileData = encryptMessage(FileData, Key);
 
 			$.post('save_file.php', 
 				{FileName: FileName, MIMEType: MIMEType, FileData: FileData}, 
@@ -33,6 +33,9 @@ $( function() {
 		$.post('get_file.php', {}, function(data) {
 			if(data=='0') console.log('Error: ' + data);
 			else {
+			        // decrypt
+				data = decryptMessage(data, Key);
+
 				if(bowser.safari) {
 					// anything but IE
 					var a = document.createElement('a');

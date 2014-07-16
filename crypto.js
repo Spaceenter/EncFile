@@ -39,11 +39,7 @@ function encryptMessage(message, randomKey) {
 
 function decryptMessage(encMessage, randomKey) {
 	encMessage = decode_utf8_base64(encMessage);
-	// cuttoff time for enabling multilanguage support
-	if (parseInt($('#messageTime').val())>1399086120) 
-		return decode_utf8_base64(openpgp.crypto.cfb.decrypt("aes256",randomKey,encMessage,true));
-	else
-		return openpgp.crypto.cfb.decrypt("aes256",randomKey,encMessage,true);		
+	return decode_utf8_base64(openpgp.crypto.cfb.decrypt("aes256",randomKey,encMessage,true));
 }
 
 var headerMessage = "---BEGIN ENCRYPTED MESSAGE---";
